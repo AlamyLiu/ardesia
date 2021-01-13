@@ -22,7 +22,9 @@
  */
 
 
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
 #include <glib.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>

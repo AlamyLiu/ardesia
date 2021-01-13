@@ -22,7 +22,9 @@
  */
 
 
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
 #include <locale.h>
 #include <glib.h>
 #include <glib/gprintf.h>
