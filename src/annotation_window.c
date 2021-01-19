@@ -412,6 +412,8 @@ static void setup_app(
     gint width = gdk_screen_width();
     gint height = gdk_screen_height();
 
+    g_printf("W/H = %d/%d\n", width, height);
+
     /* Create the annotation window. */
     data->annotation_window = create_annotation_window();
 
