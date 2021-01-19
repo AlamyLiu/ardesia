@@ -90,6 +90,9 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         HAVE_CONFIG_H
+        GTK_DISABLE_SINGLE_INCLUDES
+        GTK_DISABLE_DEPRECATED
+        GDK_DISABLE_DEPRECATED
 )
 
 target_include_directories(${PROJECT_NAME}
