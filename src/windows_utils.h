@@ -21,49 +21,41 @@
  *
  */
 
-
 #ifdef _WIN32
 
-#include <windows.h>
-#include <mapi.h>
+#   include <windows.h>
+#   include <mapi.h>
 
-#include <winuser.h>
-#include <shlwapi.h>
-#include <objbase.h>
+#   include <winuser.h>
+#   include <shlwapi.h>
+#   include <objbase.h>
 
-#include <gdk/gdk.h>
-#include <gdkwin32.h>
-#include <gtk/gtk.h>
+#   include <gdk/gdk.h>
+#   include <gdkwin32.h>
+#   include <gtk/gtk.h>
 
-
-  
 /* Define other symbols needed to create the transparent layered window */
-#define LWA_COLORKEY	0x00000001
-
+#   define LWA_COLORKEY	0x00000001
 
 /* Set layered window attributes to a gdk window */
-void
-setLayeredGdkWindowAttributes (GdkWindow *gdk_window,
-                               COLORREF   cr_key,
-                               BYTE       b_alpha,
-                               DWORD dw_flags);
-
+void setLayeredGdkWindowAttributes(
+    GdkWindow * gdk_window,
+    COLORREF cr_key,
+    BYTE b_alpha,
+    DWORD dw_flags);
 
 /* Send an email with MAPI. */
-void
-windows_send_email (gchar  *to,
-                    gchar  *subject,
-                    gchar  *body,
-                    GSList *attachment_list);
-
+void windows_send_email(
+    gchar * to,
+    gchar * subject,
+    gchar * body,
+    GSList * attachment_list);
 
 /* Create a link with icon. */
-void
-windows_create_link (gchar *src,
-                     gchar *dest,
-                     gchar *icon_path,
-                     int    icon_index);
+void windows_create_link(
+    gchar * src,
+    gchar * dest,
+    gchar * icon_path,
+    int icon_index);
 
 #endif
-
-

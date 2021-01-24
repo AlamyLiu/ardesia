@@ -21,7 +21,6 @@
  *
  */
 
-
 #include <gtk/gtk.h>
 
 /* full opaque alpha */
@@ -37,5 +36,3 @@
  * the window manager does not support the stay above directive.
  */
 #define  BAR_TO_TOP_TIMEOUT 1000
-
-

@@ -21,35 +21,28 @@
  *
  */
 
-
 #include <gtk/gtk.h>
 
-
 #ifdef _WIN32
-#  define CRASH_UI_FILE "..\\share\\ardesia\\ui\\crash_dialog.glade"
+#   define CRASH_UI_FILE "..\\share\\ardesia\\ui\\crash_dialog.glade"
 #else
-#  define CRASH_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/crash_dialog.glade"
-#endif 
-
+#   define CRASH_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/crash_dialog.glade"
+#endif
 
 /* Structure that contains the info passed to the callbacks. */
-typedef struct
-{
+typedef struct {
 
-  /* Preference dialog. */
-  GtkBuilder *crash_dialog_gtk_builder;
-  
-  /* The text that will contain the crash report. */
-  gchar *crash_report;
+    /* Preference dialog. */
+    GtkBuilder *crash_dialog_gtk_builder;
 
-}CrashData;
+    /* The text that will contain the crash report. */
+    gchar *crash_report;
 
+} CrashData;
 
 /*
  * Start the dialog that inform that a crash is occurred.
  */
-void
-start_crash_dialog (GtkWindow *parent,
-                    gchar     *crash_report);
-
-
+void start_crash_dialog(
+    GtkWindow * parent,
+    gchar * crash_report);

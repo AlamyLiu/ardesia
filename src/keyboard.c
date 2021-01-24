@@ -21,9 +21,8 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#   include <config.h>
 #endif
 
 #include <utils.h>
@@ -33,43 +32,38 @@
 /* The pid of the virtual keyboard process. */
 static GPid virtual_keyboard_pid;
 
-
 /* Start the virtual keyboard. */
-void
-start_virtual_keyboard       ()
+void start_virtual_keyboard(
+    )
 {
-  int result = -1;
-  result = system("gsettings set org.florence.behaviour auto-hide false");
-  if (result != 0)
-    {
-      g_printerr ("Fail to show virtual keyboard: Florence and gsettings packages are required\n");
+    int result = -1;
+    result = system("gsettings set org.florence.behaviour auto-hide false");
+    if (result != 0) {
+        g_printerr
+            ("Fail to show virtual keyboard: Florence and gsettings packages are required\n");
     }
 }
 
-
 /* Stop the virtual keyboard. */
-void
-stop_virtual_keyboard        ()
+void stop_virtual_keyboard(
+    )
 {
 #ifdef _WIN32
-  if (virtual_keyboard_pid > 0)
-    {
-      /* @TODO replace this with the cross platform g_pid_terminate
-       * when it will available
-       */
-      HWND hwnd = FindWindow (VIRTUALKEYBOARD_WINDOW_NAME, NULL);
-      SendMessage (hwnd, WM_SYSCOMMAND, SC_CLOSE, 0);
-      g_spawn_close_pid (virtual_keyboard_pid);
-      virtual_keyboard_pid = (GPid) 0;
+    if (virtual_keyboard_pid > 0) {
+        /* @TODO replace this with the cross platform g_pid_terminate
+         * when it will available
+         */
+        HWND hwnd = FindWindow(VIRTUALKEYBOARD_WINDOW_NAME, NULL);
+        SendMessage(hwnd, WM_SYSCOMMAND, SC_CLOSE, 0);
+        g_spawn_close_pid(virtual_keyboard_pid);
+        virtual_keyboard_pid = (GPid) 0;
     }
 #else
-  int result = -1;
-  result = system("gsettings set org.florence.behaviour auto-hide true");
-  if (result != 0)
-    {
-      g_printerr ("Fail to hide virtual keyboard: Florence and gsettings packages are required\n");
+    int result = -1;
+    result = system("gsettings set org.florence.behaviour auto-hide true");
+    if (result != 0) {
+        g_printerr
+            ("Fail to hide virtual keyboard: Florence and gsettings packages are required\n");
     }
 #endif
 }
-
-

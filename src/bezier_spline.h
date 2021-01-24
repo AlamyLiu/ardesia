@@ -21,16 +21,12 @@
  *
  */
 
-
 #include <stdlib.h>
 #include <math.h>
 #include <glib.h>
 
 #include <gsl/gsl_linalg.h>
 
-
 /* Spline the lines. */
-GSList *
-spline (GSList *list);
-
-
+GSList *spline(
+    GSList * list);

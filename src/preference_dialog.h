@@ -21,41 +21,33 @@
  *
  */
 
-
 #include <gtk/gtk.h>
 
-
 #ifdef _WIN32
-#  define PREFERENCE_UI_FILE "..\\share\\ardesia\\ui\\preference_dialog.glade"
-#  define BACKGROUNDS_FOLDER "..\\share\\ardesia\\ui\\backgrounds"
+#   define PREFERENCE_UI_FILE "..\\share\\ardesia\\ui\\preference_dialog.glade"
+#   define BACKGROUNDS_FOLDER "..\\share\\ardesia\\ui\\backgrounds"
 #else
-#  define PREFERENCE_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/preference_dialog.glade"
-#  define BACKGROUNDS_FOLDER PACKAGE_DATA_DIR"/ardesia/ui/backgrounds"
+#   define PREFERENCE_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/preference_dialog.glade"
+#   define BACKGROUNDS_FOLDER PACKAGE_DATA_DIR"/ardesia/ui/backgrounds"
 #endif
 
+typedef struct {
 
-typedef struct
-{
+    /* Preference dialog. */
+    GtkBuilder *preference_dialog_gtk_builder;
 
-  /* Preference dialog. */
-  GtkBuilder *preference_dialog_gtk_builder;
+    /* Preview of background file. */
+    GtkWidget *preview;
 
-  /* Preview of background file. */
-  GtkWidget *preview;
-
-}PreferenceData;
-
+} PreferenceData;
 
 /* Show the permission denied to access to file dialog. */
-void
-show_permission_denied_dialog     (GtkWindow  *parent_window);
-
+void show_permission_denied_dialog(
+    GtkWindow * parent_window);
 
 /*
  * Start the dialog that ask to the user
  * the background setting.
  */
-void
-start_preference_dialog           (GtkWindow  *parent);
-
-
+void start_preference_dialog(
+    GtkWindow * parent);

@@ -21,41 +21,37 @@
  *
  */
 
-
 #include <bezier_spline.h>
 #include <annotation_window.h>
 #include <utils.h>
 
-
 /* Spline the lines with a bezier curves. */
-GSList *
-spline (GSList *list)
+GSList *spline(
+    GSList * list)
 {
-  GSList *ret = NULL;
-  guint i = 0;
-  guint lenght = g_slist_length (list);
-  gdouble mx[lenght][2]; 
-  gdouble width = 12;
-  gdouble pressure = 1;
+    GSList *ret = NULL;
+    guint i = 0;
+    guint lenght = g_slist_length(list);
+    gdouble mx[lenght][2];
+    gdouble width = 12;
+    gdouble pressure = 1;
 
-  /* Pi, Qi are control points for curve (Xi, Xi+1). */
-  gdouble mp[lenght-1][2];
-  gdouble mq[lenght-1][2];
+    /* Pi, Qi are control points for curve (Xi, Xi+1). */
+    gdouble mp[lenght - 1][2];
+    gdouble mq[lenght - 1][2];
 
-  gint s, eq = 0;
-  gsl_matrix *m;
-  gsl_vector *bx, *by, *x;
-  gsl_permutation *perm;
+    gint s, eq = 0;
+    gsl_matrix *m;
+    gsl_vector *bx, *by, *x;
+    gsl_permutation *perm;
 
-  for  (i=0; i<lenght; i++)
-    {
-      AnnotatePoint *point = (AnnotatePoint*) g_slist_nth_data (list, i);
-      mx[i][0] = point->x;
-      mx[i][1] = point->y;
-      if (i==0)
-        {
-          width = point->width;
-          pressure = point->pressure;
+    for (i = 0; i < lenght; i++) {
+        AnnotatePoint *point = (AnnotatePoint *) g_slist_nth_data(list, i);
+        mx[i][0] = point->x;
+        mx[i][1] = point->y;
+        if (i == 0) {
+            width = point->width;
+            pressure = point->pressure;
         }
     }
 
@@ -80,110 +76,102 @@ spline (GSList *list)
 
   *****************************************************************************/
 
-  /* Allocate matrix and vectors. */
-  m  = gsl_matrix_calloc (2* (lenght-1), 2* (lenght-1)); 
-  bx = gsl_vector_calloc (2* (lenght-1)); 
-  by = gsl_vector_calloc (2* (lenght-1)); 
+    /* Allocate matrix and vectors. */
+    m = gsl_matrix_calloc(2 * (lenght - 1), 2 * (lenght - 1));
+    bx = gsl_vector_calloc(2 * (lenght - 1));
+    by = gsl_vector_calloc(2 * (lenght - 1));
 
-  /* Fill-in matrix. */
-  for ( i = 0; i < lenght-2; i++ ) 
-    {
-      gsl_matrix_set (m, eq, i+1, 1);        // Pi+1
-      gsl_matrix_set (m, eq, (lenght-1)+i, 1);    // + Qi
-      eq++;                                 // = 2Xi+1
+    /* Fill-in matrix. */
+    for (i = 0; i < lenght - 2; i++) {
+        gsl_matrix_set(m, eq, i + 1, 1);    // Pi+1
+        gsl_matrix_set(m, eq, (lenght - 1) + i, 1); // + Qi
+        eq++;                   // = 2Xi+1
 
-      gsl_matrix_set (m, eq, i, 1);          // Pi
-      gsl_matrix_set (m, eq, i+1, 2);        // + 2*Pi+1
-      gsl_matrix_set (m, eq, (lenght-1)+i+1, -1); // - Qi+1
-      gsl_matrix_set (m, eq, (lenght-1)+i, -2);   // - 2*Qi
-      eq++;                                 // = 0
+        gsl_matrix_set(m, eq, i, 1);    // Pi
+        gsl_matrix_set(m, eq, i + 1, 2);    // + 2*Pi+1
+        gsl_matrix_set(m, eq, (lenght - 1) + i + 1, -1);    // - Qi+1
+        gsl_matrix_set(m, eq, (lenght - 1) + i, -2);    // - 2*Qi
+        eq++;                   // = 0
     }
 
-  gsl_matrix_set (m, eq++, 0, 1);            // P0   = X0
-  gsl_matrix_set (m, eq++, 2* (lenght-1)-1, 1);    // Qn-1 = Xn
+    gsl_matrix_set(m, eq++, 0, 1);  // P0   = X0
+    gsl_matrix_set(m, eq++, 2 * (lenght - 1) - 1, 1);   // Qn-1 = Xn
 
-  
-  /* Fill-in vectors. */
-  for ( i = 0; i < lenght-2; i++ ) 
-    {
-      gsl_vector_set (bx, 2*i, 2*mx[i+1][0]);
-      gsl_vector_set (by, 2*i, 2*mx[i+1][1]);
+    /* Fill-in vectors. */
+    for (i = 0; i < lenght - 2; i++) {
+        gsl_vector_set(bx, 2 * i, 2 * mx[i + 1][0]);
+        gsl_vector_set(by, 2 * i, 2 * mx[i + 1][1]);
     }
-  gsl_vector_set (bx, 2* (lenght-1)-2, mx[0][0]);
-  gsl_vector_set (bx, 2* (lenght-1)-1, mx[lenght-1][0]);
+    gsl_vector_set(bx, 2 * (lenght - 1) - 2, mx[0][0]);
+    gsl_vector_set(bx, 2 * (lenght - 1) - 1, mx[lenght - 1][0]);
 
-  gsl_vector_set (by, 2* (lenght-1)-2, mx[0][1]);
-  gsl_vector_set (by, 2* (lenght-1)-1, mx[lenght-1][1]);
+    gsl_vector_set(by, 2 * (lenght - 1) - 2, mx[0][1]);
+    gsl_vector_set(by, 2 * (lenght - 1) - 1, mx[lenght - 1][1]);
 
-  /* Calculate LU decomposition, solve lin. systems... */
-  perm = gsl_permutation_alloc (2* (lenght-1));
-  gsl_linalg_LU_decomp (m, perm, &s);
+    /* Calculate LU decomposition, solve lin. systems... */
+    perm = gsl_permutation_alloc(2 * (lenght - 1));
+    gsl_linalg_LU_decomp(m, perm, &s);
 
-  /* Solve for bx. */
-  x  = gsl_vector_calloc (2* (lenght-1));
-  gsl_linalg_LU_solve ( m, perm, bx, x ); 
-  /* copy solution (@FIXME: should be avoided!) */
-  for ( i = 0; i < lenght-1; i++ )
-    {
-      mp[i][0] = gsl_vector_get (x, i);
-      mq[i][0] = gsl_vector_get (x, i+ (lenght-1));
+    /* Solve for bx. */
+    x = gsl_vector_calloc(2 * (lenght - 1));
+    gsl_linalg_LU_solve(m, perm, bx, x);
+    /* copy solution (@FIXME: should be avoided!) */
+    for (i = 0; i < lenght - 1; i++) {
+        mp[i][0] = gsl_vector_get(x, i);
+        mq[i][0] = gsl_vector_get(x, i + (lenght - 1));
     }
-  gsl_vector_free (x);
+    gsl_vector_free(x);
 
-  /* Solve for by. */
-  x  = gsl_vector_calloc (2* (lenght-1));
-  gsl_linalg_LU_solve ( m, perm, by, x ); 
-  /* copy solution (@FIXME: should be avoided!) */
-  for ( i = 0; i < lenght-1; i++ )
-    {
-      mp[i][1] = gsl_vector_get (x, i);
-      mq[i][1] = gsl_vector_get (x, i+ (lenght-1));
+    /* Solve for by. */
+    x = gsl_vector_calloc(2 * (lenght - 1));
+    gsl_linalg_LU_solve(m, perm, by, x);
+    /* copy solution (@FIXME: should be avoided!) */
+    for (i = 0; i < lenght - 1; i++) {
+        mp[i][1] = gsl_vector_get(x, i);
+        mq[i][1] = gsl_vector_get(x, i + (lenght - 1));
     }
 
-  gsl_vector_free (x);
+    gsl_vector_free(x);
 
-  gsl_permutation_free (perm);
-  
-  /* Free matrix and vectors. */
-  gsl_matrix_free (m);
-  gsl_vector_free (bx);
-  gsl_vector_free (by);
+    gsl_permutation_free(perm);
 
-  /* Now paint the smoothed line. */
-  for ( i = 0; i < lenght-1; i++ )
-    {
+    /* Free matrix and vectors. */
+    gsl_matrix_free(m);
+    gsl_vector_free(bx);
+    gsl_vector_free(by);
 
-      /* B second derivates */  
-      // printf ("%d: Bx'' (0) = %lf\n", i+1, 6*mx[i][0]-12*mp[i][0]+6*mq[i][0]);
-      // printf ("%d: Bx'' (1) = %lf\n\n", i+1, 6*mp[i][0]-12*mq[i][0]+6*mx[i+1][0]);
+    /* Now paint the smoothed line. */
+    for (i = 0; i < lenght - 1; i++) {
 
-      /* B first derivates */
-      // printf ("%d: Bx' (0) = %lf\n", i+1, -3*mx[i][0]+3*mp[i][0]);
-      // printf ("%d: Bx' (1) = %lf\n", i+1, -3*mq[i][0]+3*mx[i+1][0]);
+        /* B second derivates */
+        // printf ("%d: Bx'' (0) = %lf\n", i+1, 6*mx[i][0]-12*mp[i][0]+6*mq[i][0]);
+        // printf ("%d: Bx'' (1) = %lf\n\n", i+1, 6*mp[i][0]-12*mq[i][0]+6*mx[i+1][0]);
 
-      AnnotatePoint *first_point =  allocate_point ( mp[i][0],
-                                                     mp[i][1],
-                                                     width,
-                                                     pressure);
+        /* B first derivates */
+        // printf ("%d: Bx' (0) = %lf\n", i+1, -3*mx[i][0]+3*mp[i][0]);
+        // printf ("%d: Bx' (1) = %lf\n", i+1, -3*mq[i][0]+3*mx[i+1][0]);
 
-      AnnotatePoint *second_point =  allocate_point (mq[i][0],
+        AnnotatePoint *first_point = allocate_point(mp[i][0],
+                                                    mp[i][1],
+                                                    width,
+                                                    pressure);
+
+        AnnotatePoint *second_point = allocate_point(mq[i][0],
                                                      mq[i][1],
                                                      width,
                                                      pressure);
 
-      AnnotatePoint *third_point =  allocate_point (mx[i+1][0],
-                                                    mx[i+1][1],
+        AnnotatePoint *third_point = allocate_point(mx[i + 1][0],
+                                                    mx[i + 1][1],
                                                     width,
                                                     pressure);
 
-      ret = g_slist_prepend (ret, first_point);
-      ret = g_slist_prepend (ret, second_point);
-      ret = g_slist_prepend (ret, third_point);
+        ret = g_slist_prepend(ret, first_point);
+        ret = g_slist_prepend(ret, second_point);
+        ret = g_slist_prepend(ret, third_point);
 
     }
 
-  ret = g_slist_reverse (ret);
-  return ret;
+    ret = g_slist_reverse(ret);
+    return ret;
 }
-
-

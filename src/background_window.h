@@ -21,109 +21,91 @@
  *
  */
 
-
 #include <gtk/gtk.h>
 
 #define BACKGROUND_OPACITY 0.01
 
-#ifdef _WIN32  
-#  define BACKGROUND_UI_FILE "..\\share\\ardesia\\ui\\background_window.glade"
+#ifdef _WIN32
+#   define BACKGROUND_UI_FILE "..\\share\\ardesia\\ui\\background_window.glade"
 #else
-#  define BACKGROUND_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/background_window.glade"
+#   define BACKGROUND_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/background_window.glade"
 #endif
 
-
 /* Structure that contains the info passed to the callbacks. */
-typedef struct
-{
+typedef struct {
 
-  /* Gtkbuilder for background window. */
-  GtkBuilder *background_window_gtk_builder;
+    /* Gtkbuilder for background window. */
+    GtkBuilder *background_window_gtk_builder;
 
-  /* 0 no background, 1 color, 1 image*/
-  gint background_type;
+    /* 0 no background, 1 color, 1 image */
+    gint background_type;
 
-  /* Background colour selected. */
-  gchar *background_color; 
+    /* Background colour selected. */
+    gchar *background_color;
 
-  /* Background image selected. */
-  gchar *background_image;
+    /* Background image selected. */
+    gchar *background_image;
 
-  /* The background widget that represent the full window. */
-  GtkWidget *background_window;
+    /* The background widget that represent the full window. */
+    GtkWidget *background_window;
 
-  /* cairo context to draw on the background window. */
-  cairo_t *background_cr;
+    /* cairo context to draw on the background window. */
+    cairo_t *background_cr;
 
-}BackgroundData;
-
+} BackgroundData;
 
 /* Create the background window. */
-GtkWidget *
-create_background_window     ();
+GtkWidget *create_background_window(
+    );
 
 /* Set the background type. */
-void
-set_background_type     (gint type);
-
+void set_background_type(
+    gint type);
 
 /* Get the background type */
-gint
-get_background_type     ();
-
+gint get_background_type(
+    );
 
 /* Set the background image. */
-void
-set_background_image    (gchar *background_image);
-
+void set_background_image(
+    gchar * background_image);
 
 /* Update the background image. */
-void
-update_background_image (gchar *name);
-
+void update_background_image(
+    gchar * name);
 
 /* Get the background image */
-gchar *
-get_background_image    ();
-
+gchar *get_background_image(
+    );
 
 /* Set the background colour. */
-void
-set_background_color    (gchar *rgba);
-
+void set_background_color(
+    gchar * rgba);
 
 /* Update the background colour. */
-void
-update_background_color (gchar* rgba);
-
+void update_background_color(
+    gchar * rgba);
 
 /* Get the background colour */
-gchar *
-get_background_color    ();
-
+gchar *get_background_color(
+    );
 
 /* Clear the background. */
-void
-clear_background_window ();
-
+void clear_background_window(
+    );
 
 /* Destroy background window. */
-void
-destroy_background_window    ();
-
+void destroy_background_window(
+    );
 
 /* Get the background window. */
-GtkWidget *
-get_background_window   ();
-
+GtkWidget *get_background_window(
+    );
 
 /* Set the background window. */
-void
-set_background_window   (GtkWidget *widget);
-
+void set_background_window(
+    GtkWidget * widget);
 
 /* Upgrade the background window */
-void
-update_background       ();
-
-
+void update_background(
+    );

@@ -22,5 +22,3 @@
  */
 
 #include <gtk/gtk.h>
-
-

@@ -21,9 +21,8 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#   include <config.h>
 #endif
 #include <locale.h>
 #include <glib.h>
@@ -34,35 +33,30 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-
 /* The position used to localize the bar. */
 #define EAST 1
 #define WEST 2
 #define NORTH 3
 #define SOUTH 4
 
-
 /* The structure that contains the command line info. */
-typedef struct
-{
+typedef struct {
 
-  /* The file name of the iwb. */
-  gchar *iwb_filename;
+    /* The file name of the iwb. */
+    gchar *iwb_filename;
 
-  /* Is the debug mode enabled? */
-  gboolean debug;
-  
-  /* Is the bar windows decorated? */
-  gboolean decorated;
+    /* Is the debug mode enabled? */
+    gboolean debug;
 
-  /* Where is located the ardesia bar? */
-  gint position;
+    /* Is the bar windows decorated? */
+    gboolean decorated;
 
-  /* Options for text_window */
-  gchar *fontfamily;
-  gint text_leftmargin;
-  gint text_tabsize;
+    /* Where is located the ardesia bar? */
+    gint position;
+
+    /* Options for text_window */
+    gchar *fontfamily;
+    gint text_leftmargin;
+    gint text_tabsize;
 
 } CommandLine;
-
-

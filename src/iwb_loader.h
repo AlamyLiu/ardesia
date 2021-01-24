@@ -17,16 +17,12 @@
  *
  */
 
-
 #include <glib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-
 /* Load an iwb file and create the list of save-point. */
-GSList *
-load_iwb (gchar *iwb_filename);
-
-
+GSList *load_iwb(
+    gchar * iwb_filename);

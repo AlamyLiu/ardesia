@@ -28,19 +28,17 @@
 #include <ctype.h>
 
 #ifdef _WIN32
-#  include <cairo-win32.h>
+#   include <cairo-win32.h>
 #else
-#  ifdef __APPLE__
-#    include <cairo-quartz.h>
-#  else
-#    include <cairo-xlib.h>
-#  endif
+#   ifdef __APPLE__
+#      include <cairo-quartz.h>
+#   else
+#      include <cairo-xlib.h>
+#   endif
 #endif
-
 
 /* Stack size used for flood fill algorithm. */
 #define STACKSIZE 10000
-
 
 /**
  * CAIRO_ARGB32_SET_PIXEL:
@@ -54,7 +52,7 @@
  *
  **/
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#define CAIRO_ARGB32_SET_PIXEL(d, r, g, b, a) \
+#   define CAIRO_ARGB32_SET_PIXEL(d, r, g, b, a) \
   G_STMT_START {                                   \
     guint tr = (a) * (r) + 0x80;                   \
     guint tg = (a) * (g) + 0x80;                   \
@@ -65,7 +63,7 @@
     d[3] = (a);                                    \
   } G_STMT_END
 #else
-#define GIMP_CAIRO_ARGB32_SET_PIXEL(d, r, g, b, a) \
+#   define GIMP_CAIRO_ARGB32_SET_PIXEL(d, r, g, b, a) \
   G_STMT_START {                                   \
     guint tr = (a) * (r) + 0x80;                   \
     guint tg = (a) * (g) + 0x80;                   \
@@ -77,10 +75,9 @@
   } G_STMT_END
 #endif
 
-
-/* Macro to get the rgba value of the pixel at coordinate (x,y).*/ 
+/* Macro to get the rgba value of the pixel at coordinate (x,y).*/
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#define CAIRO_ARGB32_GET_PIXEL(s, r, g, b, a)      \
+#   define CAIRO_ARGB32_GET_PIXEL(s, r, g, b, a)      \
   G_STMT_START {                                   \
     const guint tb = (s)[0];                       \
     const guint tg = (s)[1];                       \
@@ -92,7 +89,7 @@
     (a) = ta;                                      \
   } G_STMT_END
 #else
-#define CAIRO_ARGB32_GET_PIXEL(s, r, g, b, a)      \
+#   define CAIRO_ARGB32_GET_PIXEL(s, r, g, b, a)      \
   G_STMT_START {                                   \
     const guint ta = (s)[0];                       \
     const guint tr = (s)[1];                       \
@@ -105,7 +102,6 @@
   } G_STMT_END
 #endif
 
-
 #define RGB_TO_UINT(r,g,b) ((((guint)(r))<<16)|(((guint)(g))<<8)|((guint)(b)))
 #define RGB_TO_RGBA(x,a) (((x) << 8) | ((((guint)a) & 0xff)))
 #define RGBA_TO_UINT(r,g,b,a) RGB_TO_RGBA(RGB_TO_UINT(r,g,b), a)
@@ -114,13 +110,10 @@
 #define UINT_RGBA_B(x) ((((guint)(x))>>8)&0xff)
 #define UINT_RGBA_A(x) (((guint)(x))&0xff)
 
-
 /* Struct used to store the point visited by the flood fill algorithm. */
-struct FillPixelInfo
-{
-   int y, xl, xr, dy;
+struct FillPixelInfo {
+    int y, xl, xr, dy;
 };
-
 
 /* Push macro used by flood fill algorithm. */
 #define PUSH(py, pxl, pxr, pdy)                                     \
@@ -136,7 +129,6 @@ struct FillPixelInfo
     }                                                               \
 }
 
-
 /* Pop macro used by flood fill algorithm. */
 #define POP(py, pxl, pxr, pdy)                                      \
 {                                                                   \
@@ -147,46 +139,41 @@ struct FillPixelInfo
     (pdy) = sp->dy;                                                 \
 }
 
-
 /* Struct passed to flood fill. */
-struct FillInfo
-{
+struct FillInfo {
 
-  /* Cairo surface used to visit the image. */
-  cairo_surface_t *surface;
-  
-  /* Surface width. */
-  gint width;
-  
-  /* Surface height. */
-  gint height;
+    /* Cairo surface used to visit the image. */
+    cairo_surface_t *surface;
 
-  /* Cairo context used to mark pixels. */
-  cairo_t *context;
+    /* Surface width. */
+    gint width;
 
-  /* Color at initial point. */
-  guint32 orig_color;
-  
-  /* Color used to fill. */
-  guint32 filled_color;
+    /* Surface height. */
+    gint height;
 
-  /* Pixels of image. */
-  guchar *pixels;
+    /* Cairo context used to mark pixels. */
+    cairo_t *context;
 
-  /* Stride of image. */
-  gint stride;
+    /* Color at initial point. */
+    guint32 orig_color;
+
+    /* Color used to fill. */
+    guint32 filled_color;
+
+    /* Pixels of image. */
+    guchar *pixels;
+
+    /* Stride of image. */
+    gint stride;
 
 };
-
 
 /*
  * Perform the flood fill algorithm.
  */
-void
-flood_fill                   (cairo_t          *annotation_cairo_context,
-                              cairo_surface_t  *surface,
-                              gchar            *filled_color,
-                              gdouble           x,
-                              gdouble           y);
-
-
+void flood_fill(
+    cairo_t * annotation_cairo_context,
+    cairo_surface_t * surface,
+    gchar * filled_color,
+    gdouble x,
+    gdouble y);

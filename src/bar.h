@@ -21,25 +21,22 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#   include <config.h>
 #endif
 #include <glib.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <ardesia.h>
 
-
 #ifdef _WIN32
-#  include <windows_utils.h>
-#  define UI_FILE "..\\share\\ardesia\\ui\\vertical_bar.glade"
-#  define UI_HOR_FILE "..\\share\\ardesia\\ui\\horizontal_bar.glade"
+#   include <windows_utils.h>
+#   define UI_FILE "..\\share\\ardesia\\ui\\vertical_bar.glade"
+#   define UI_HOR_FILE "..\\share\\ardesia\\ui\\horizontal_bar.glade"
 #else
-#  define UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/vertical_bar.glade"
-#  define UI_HOR_FILE PACKAGE_DATA_DIR"/ardesia/ui/horizontal_bar.glade"
+#   define UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/vertical_bar.glade"
+#   define UI_HOR_FILE PACKAGE_DATA_DIR"/ardesia/ui/horizontal_bar.glade"
 #endif
-
 
 /* Distance space from border to the ardesia bar in pixel unit. */
 #define SPACE_FROM_BORDER 35
@@ -47,37 +44,32 @@
 #define MICRO_THICKNESS   3
 #define THIN_THICKNESS    6
 #define MEDIUM_THICKNESS  12
-#define THICK_THICKNESS   18    
-
+#define THICK_THICKNESS   18
 
 /* Structure that contains the info passed to the callbacks. */
-typedef struct
-{
+typedef struct {
 
-  /* rectifier flag. */
-  gboolean rectifier;
+    /* rectifier flag. */
+    gboolean rectifier;
 
-  /* rounder flag. */
-  gboolean rounder;
+    /* rounder flag. */
+    gboolean rounder;
 
-  /* selected colour in RGBA format. */
-  gchar* color;
+    /* selected colour in RGBA format. */
+    gchar *color;
 
-  /* selected line thickness. */
-  gint thickness;
+    /* selected line thickness. */
+    gint thickness;
 
-  /* annotation is visible. */
-  gboolean annotation_is_visible;
+    /* annotation is visible. */
+    gboolean annotation_is_visible;
 
-  /* grab when leave. */
-  gboolean grab;
+    /* grab when leave. */
+    gboolean grab;
 
-}BarData;
-
+} BarData;
 
 /* Create the ardesia bar window. */
-GtkWidget *
-create_bar_window (CommandLine *commandline,
-                   GtkWidget   *parent);
-
-
+GtkWidget *create_bar_window(
+    CommandLine * commandline,
+    GtkWidget * parent);

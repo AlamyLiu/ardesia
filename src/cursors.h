@@ -28,54 +28,46 @@
 #include <cairo.h>
 
 #ifdef _WIN32
-#  define ANNOTATION_UI_FOLDER "..\\share\\ardesia\\ui"
-#  define ANNOTATION_PIXMAPS_FOLDER "..\\share\\ardesia\\ui\\icons"
-#  define ERASER_ICON ANNOTATION_PIXMAPS_FOLDER"\\eraser.svg"
-#  define PENCIL_ICON ANNOTATION_PIXMAPS_FOLDER"\\pencil.svg"
-#  define ARROW_ICON ANNOTATION_PIXMAPS_FOLDER"\\arrow.svg"
-#  define HIGHLIGHTER_ICON ANNOTATION_PIXMAPS_FOLDER"\\highlighter.svg"
-#  define FILLER_ICON ANNOTATION_PIXMAPS_FOLDER"\\filler.svg"
+#   define ANNOTATION_UI_FOLDER "..\\share\\ardesia\\ui"
+#   define ANNOTATION_PIXMAPS_FOLDER "..\\share\\ardesia\\ui\\icons"
+#   define ERASER_ICON ANNOTATION_PIXMAPS_FOLDER"\\eraser.svg"
+#   define PENCIL_ICON ANNOTATION_PIXMAPS_FOLDER"\\pencil.svg"
+#   define ARROW_ICON ANNOTATION_PIXMAPS_FOLDER"\\arrow.svg"
+#   define HIGHLIGHTER_ICON ANNOTATION_PIXMAPS_FOLDER"\\highlighter.svg"
+#   define FILLER_ICON ANNOTATION_PIXMAPS_FOLDER"\\filler.svg"
 #else
-#  define ANNOTATION_PIXMAPS_FOLDER PACKAGE_DATA_DIR"/ardesia/ui/icons"
-#  define ERASER_ICON ANNOTATION_PIXMAPS_FOLDER"/eraser.svg"
-#  define PENCIL_ICON ANNOTATION_PIXMAPS_FOLDER"/pencil.svg"
-#  define ARROW_ICON ANNOTATION_PIXMAPS_FOLDER"/arrow.svg"
-#  define HIGHLIGHTER_ICON ANNOTATION_PIXMAPS_FOLDER"/highlighter.svg"
-#  define FILLER_ICON ANNOTATION_PIXMAPS_FOLDER"/filler.svg"
+#   define ANNOTATION_PIXMAPS_FOLDER PACKAGE_DATA_DIR"/ardesia/ui/icons"
+#   define ERASER_ICON ANNOTATION_PIXMAPS_FOLDER"/eraser.svg"
+#   define PENCIL_ICON ANNOTATION_PIXMAPS_FOLDER"/pencil.svg"
+#   define ARROW_ICON ANNOTATION_PIXMAPS_FOLDER"/arrow.svg"
+#   define HIGHLIGHTER_ICON ANNOTATION_PIXMAPS_FOLDER"/highlighter.svg"
+#   define FILLER_ICON ANNOTATION_PIXMAPS_FOLDER"/filler.svg"
 #endif
 
-
 /* Initialize the cursors variables. */
-void 
-cursors_main ();
-
+void cursors_main(
+    );
 
 /* Allocate a invisible cursor that can be used to hide the cursor icon. */
-void
-allocate_invisible_cursor (GdkCursor **cursor);
-
+void allocate_invisible_cursor(
+    GdkCursor ** cursor);
 
 /* Set the pen cursor. */
-void
-set_pen_cursor (GdkCursor **cursor,
-                gdouble thickness,
-                gchar* color,
-                gboolean arrow);
-
+void set_pen_cursor(
+    GdkCursor ** cursor,
+    gdouble thickness,
+    gchar * color,
+    gboolean arrow);
 
 /* Set the eraser cursor. */
-void
-set_eraser_cursor (GdkCursor **cursor,
-                   gint        size);
-
+void set_eraser_cursor(
+    GdkCursor ** cursor,
+    gint size);
 
 /* Set the filler cursor. */
-void
-set_filler_cursor (GdkCursor **cursor);
-
+void set_filler_cursor(
+    GdkCursor ** cursor);
 
 /* Quit the cursors and free the inners variables. */
-void 
-cursors_main_quit ();
-
-
+void cursors_main_quit(
+    );
