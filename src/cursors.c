@@ -290,7 +290,7 @@ static void get_filler_pixbuf(
 /* Create pixmap and mask for the pen cursor. */
 static void get_pen_pixbuf(
     GdkPixbuf ** pixbuf,
-    gchar * color,
+    GdkRGBA * color,
     gdouble thickness,
     gdouble arrow,
     gdouble circle_width)
@@ -307,16 +307,13 @@ static void get_pen_pixbuf(
         image_surface = get_arrow_image_surface();
     } else {
         /* Take the opacity. */
-        gchar *alpha = g_substr(color, 6, 8);
-
-        if (g_strcmp0(alpha, "FF") == 0) {
+        if (color->alpha == (gdouble)1.0) {
             /* load the pencil icon. */
             image_surface = get_pen_image_surface();
         } else {
             /* load the highlighter icon. */
             image_surface = get_highlighter_image_surface();
         }
-        g_free(alpha);
     }
 
     icon_width = cairo_image_surface_get_width(image_surface);
@@ -343,7 +340,7 @@ static void get_pen_pixbuf(
     cairo_set_line_width(pen_cr, circle_width);
 
     /* Add a circle that respect the width and the selected colour. */
-    cairo_set_source_color_from_string(pen_cr, color);
+    cairo_set_source_color_from_GdkRGBA(pen_cr, color);
 
     cairo_arc(pen_cr,
               thickness / 2 + circle_width,
@@ -391,7 +388,7 @@ void allocate_invisible_cursor(
 void set_pen_cursor(
     GdkCursor ** cursor,
     gdouble thickness,
-    gchar * color,
+    GdkRGBA * color,
     gboolean arrow)
 {
     GdkPixbuf *pixbuf = (GdkPixbuf *) NULL;

@@ -92,7 +92,7 @@ typedef struct {
 
     GSList *letterlist;
 
-    gchar *color;
+    GdkRGBA *color;
 
     gint pen_width;
 
@@ -118,7 +118,7 @@ typedef struct {
 /* Start text widget. */
 void start_text_widget(
     GtkWindow * parent,
-    gchar * color,
+    GdkRGBA * color,
     gint tickness);
 
 /* Stop text widget. */

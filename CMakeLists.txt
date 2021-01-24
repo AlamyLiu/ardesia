@@ -61,7 +61,7 @@ set(SOURCES
     ${SRC_PATH}/bar_callbacks.c
     ${SRC_PATH}/bezier_spline.c
     ${SRC_PATH}/broken.c
-    ${SRC_PATH}/color_selector.c
+    ${SRC_PATH}/color_chooser.c
     ${SRC_PATH}/crash_dialog.c
     ${SRC_PATH}/crash_dialog_callbacks.c
     ${SRC_PATH}/cursors.c

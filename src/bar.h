@@ -50,22 +50,22 @@
 typedef struct {
 
     /* rectifier flag. */
-    gboolean rectifier;
+    gboolean    rectifier;
 
     /* rounder flag. */
-    gboolean rounder;
+    gboolean    rounder;
 
     /* selected colour in RGBA format. */
-    gchar *color;
+    GdkRGBA     color;
 
     /* selected line thickness. */
-    gint thickness;
+    gint        thickness;
 
     /* annotation is visible. */
-    gboolean annotation_is_visible;
+    gboolean    annotation_is_visible;
 
     /* grab when leave. */
-    gboolean grab;
+    gboolean    grab;
 
 } BarData;
 

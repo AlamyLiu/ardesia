@@ -101,7 +101,7 @@ static gboolean blink_cursor(
         if (text_data->blink_show) {
             cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
             cairo_set_line_width(cr, text_data->pen_width);
-            cairo_set_source_color_from_string(cr, text_data->color);
+            cairo_set_source_color_from_GdkRGBA(cr, text_data->color);
             cairo_rectangle(cr, text_data->pos->x,
                             text_data->pos->y - height,
                             TEXT_CURSOR_WIDTH, height);
@@ -173,14 +173,12 @@ static gboolean set_text_cursor(
     cairo_surface_t *text_surface_t =
         cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
     cairo_t *text_pointer_cr = cairo_create(text_surface_t);
-    GdkColor *background_color_p = rgba_to_gdkcolor(BLACK);
-    GdkColor *foreground_color_p = rgba_to_gdkcolor(text_data->color);
     GdkCursor *cursor = (GdkCursor *) NULL;
     GdkPixbuf *pixbuf = (GdkPixbuf *) NULL;
 
     if (text_pointer_cr) {
         clear_cairo_context(text_pointer_cr);
-        cairo_set_source_color_from_string(text_pointer_cr, text_data->color);
+        cairo_set_source_color_from_GdkRGBA(text_pointer_cr, text_data->color);
         cairo_set_operator(text_pointer_cr, CAIRO_OPERATOR_SOURCE);
         cairo_set_line_width(text_pointer_cr, 2);
 
@@ -216,8 +214,6 @@ static gboolean set_text_cursor(
     g_object_unref(cursor);
     g_object_unref(pixbuf);
     cairo_surface_destroy(text_surface_t);
-    g_free(foreground_color_p);
-    g_free(background_color_p);
 
     return TRUE;
 }
@@ -253,7 +249,7 @@ static void init_text_widget(
         text_data->cr = gdk_cairo_create(gtk_widget_get_window(widget));
         cairo_set_operator(text_data->cr, CAIRO_OPERATOR_SOURCE);
         cairo_set_line_width(text_data->cr, text_data->pen_width);
-        cairo_set_source_color_from_string(text_data->cr, text_data->color);
+        cairo_set_source_color_from_GdkRGBA(text_data->cr, text_data->color);
         cairo_set_font_size(text_data->cr, text_data->pen_width * 5);
 
         /* Select the font */
@@ -493,7 +489,7 @@ G_MODULE_EXPORT gboolean on_text_window_cursor_motion(
 /* Start the widget for the text insertion. */
 void start_text_widget(
     GtkWindow * parent,
-    gchar * color,
+    GdkRGBA * color,
     gint tickness)
 {
     text_data = g_malloc((gsize) sizeof(TextData));

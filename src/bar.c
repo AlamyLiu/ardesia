@@ -97,7 +97,7 @@ static BarData *init_bar_data(
     )
 {
     BarData *bar_data = (BarData *) g_malloc((gsize) sizeof(BarData));
-    bar_data->color = g_strdup_printf("%s", "FF0000FF");
+    gdk_rgba_parse( &(bar_data->color), DEFAULT_COLOUR);
     bar_data->annotation_is_visible = TRUE;
     bar_data->grab = TRUE;
     bar_data->rectifier = FALSE;

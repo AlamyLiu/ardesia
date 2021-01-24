@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <gdk/gdk.h>
 
 #ifdef _WIN32
 #   include <cairo-win32.h>
@@ -105,10 +106,14 @@
 #define RGB_TO_UINT(r,g,b) ((((guint)(r))<<16)|(((guint)(g))<<8)|((guint)(b)))
 #define RGB_TO_RGBA(x,a) (((x) << 8) | ((((guint)a) & 0xff)))
 #define RGBA_TO_UINT(r,g,b,a) RGB_TO_RGBA(RGB_TO_UINT(r,g,b), a)
-#define UINT_RGBA_R(x) (((guint)(x))>>24)
-#define UINT_RGBA_G(x) ((((guint)(x))>>16)&0xff)
-#define UINT_RGBA_B(x) ((((guint)(x))>>8)&0xff)
-#define UINT_RGBA_A(x) (((guint)(x))&0xff)
+#define GDKRGBA_TO_RGBA32(x)    ( (((guint)((x->red)   * 0xff)) << 24) | \
+                                  (((guint)((x->green) * 0xff)) << 16) | \
+                                  (((guint)((x->blue)  * 0xff)) <<  8) | \
+                                  (((guint)((x->alpha) * 0xff)) ) )
+#define UINT_RGBA_R(x) ( (guint) (((x)>>24) & 0xff) )
+#define UINT_RGBA_G(x) ( (guint) (((x)>>16) & 0xff) )
+#define UINT_RGBA_B(x) ( (guint) (((x)>> 8) & 0xff) )
+#define UINT_RGBA_A(x) ( (guint) (((x)    ) & 0xff) )
 
 /* Struct used to store the point visited by the flood fill algorithm. */
 struct FillPixelInfo {
@@ -174,6 +179,6 @@ struct FillInfo {
 void flood_fill(
     cairo_t * annotation_cairo_context,
     cairo_surface_t * surface,
-    gchar * filled_color,
+    GdkRGBA * filled_color,
     gdouble x,
     gdouble y);

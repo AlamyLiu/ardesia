@@ -63,12 +63,14 @@ GtkBuilder *bar_gtk_builder;
 #define PROGRAM_NAME "Ardesia"
 
 /* Color definition in RGB. */
+/*
 #define BLACK "000000"
 #define WHITE "FFFFFF"
 #define RED   "FF0000"
 #define YELLOW "FFFF00"
 #define GREEN "00FF00"
 #define BLUE "0000FF"
+*/
 
 /* Struct to store the painted point. */
 typedef struct {
@@ -127,6 +129,11 @@ cairo_surface_t *scale_surface(
     cairo_surface_t * surface,
     gdouble width,
     gdouble height);
+
+/* Set the cairo surface colour. */
+void cairo_set_source_color_from_GdkRGBA(
+    cairo_t * cr,
+    GdkRGBA * color);
 
 /* Set the cairo surface color to the RGBA string. */
 void cairo_set_source_color_from_string(

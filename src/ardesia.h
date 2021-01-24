@@ -33,11 +33,23 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
+
 /* The position used to localize the bar. */
 #define EAST 1
 #define WEST 2
 #define NORTH 3
 #define SOUTH 4
+
+
+#define DEFAULT_COLOUR "rgb(252,175,62,128)"
+#define COLOUR_NULL    "rgb(0,0,0,0)"
+#define COLOUR_BLACK   "rgb(0,0,0,1)"
+#define COLOUR_WHITE   "rgb(255,255,255)"
+#define COLOUR_RED     "rgb(255,0,0)"
+#define COLOUR_GREEN   "rgb(0,255,0)"
+#define COLOUR_BLUE    "rgb(0,0,255)"
+#define COLOUR_YELLOW  "rgb(255,255,0)"
+
 
 /* The structure that contains the command line info. */
 typedef struct {

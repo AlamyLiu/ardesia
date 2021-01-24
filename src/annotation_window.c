@@ -21,6 +21,7 @@
 #   include <config.h>
 #endif
 
+#include "ardesia.h"
 #include <annotation_window.h>
 #include <annotation_window_callbacks.h>
 #include <utils.h>
@@ -87,31 +88,35 @@ static void select_color(
         return;
     }
 
-    if (data->cur_context) {
-        if (data->cur_context->type != ANNOTATE_ERASER) //pen or arrow tool
-        {
-            /* Select the colour. */
-            if (data->color) {
-                if (data->debug) {
-                    g_printerr("Select colour %s\n", data->color);
-                }
+    if (!(data->cur_context)) {
+        return;
+    }
 
-                cairo_set_source_color_from_string
-                    (data->annotation_cairo_context, data->color);
-            }
-
-            cairo_set_operator(data->annotation_cairo_context,
-                               CAIRO_OPERATOR_SOURCE);
-        } else {
-
-            /* It is the eraser tool. */
+    if (data->cur_context->type != ANNOTATE_ERASER) //pen or arrow tool
+    {
+        /* Select the colour. */
+//        if (data->color) {
+        if (TRUE) {
             if (data->debug) {
-                g_printerr("Select transparent colour to erase\n");
+                g_printerr("Select colour %s\n",
+                           gdk_rgba_to_string(&(data->color)));
             }
 
-            cairo_set_operator(data->annotation_cairo_context,
-                               CAIRO_OPERATOR_CLEAR);
+            cairo_set_source_color_from_GdkRGBA(
+                data->annotation_cairo_context, &(data->color));
         }
+
+        cairo_set_operator(data->annotation_cairo_context,
+                           CAIRO_OPERATOR_SOURCE);
+    } else {
+
+        /* It is the eraser tool. */
+        if (data->debug) {
+            g_printerr("Select transparent colour to erase\n");
+        }
+
+        cairo_set_operator(data->annotation_cairo_context,
+                           CAIRO_OPERATOR_CLEAR);
     }
 }
 
@@ -769,9 +774,9 @@ GtkWidget *get_annotation_window(
 
 /* Set colour. */
 void annotate_set_color(
-    gchar * color)
+    GdkRGBA * color)
 {
-    data->color = color;
+    data->color = *color;
 }
 
 /* Set rectifier. */
@@ -859,18 +864,19 @@ void annotate_modify_color(
     gdouble corrective = 0;
 
     /* The pressure is greater than 0. */
-    if ((!data->annotation_cairo_context) || (!data->color)) {
+//    if ((!data->annotation_cairo_context) || (!data->color)) {
+    if (!data->annotation_cairo_context) {
         return;
     }
 
     if (pressure >= 1) {
-        cairo_set_source_color_from_string(data->annotation_cairo_context,
-                                           data->color);
+        cairo_set_source_color_from_GdkRGBA(data->annotation_cairo_context,
+                                            &(data->color));
     } else if (pressure <= 0.1) {
         pressure = 0.1;
     }
 
-    sscanf(data->color, "%02X%02X%02X%02X", &r, &g, &b, &a);
+    // sscanf(data->color, "%02X%02X%02X%02X", &r, &g, &b, &a);
 
     if (devdata->coord_list != NULL) {
         AnnotatePoint *last_point =
@@ -935,7 +941,8 @@ void annotate_select_pen(
     )
 {
     if (data->debug) {
-        g_printerr("The pen with colour %s has been selected\n", data->color);
+        g_printerr("The pen with colour %s has been selected\n",
+                   gdk_rgba_to_string(&(data->color)));
     }
 
     if (data->default_pen) {
@@ -945,7 +952,7 @@ void annotate_select_pen(
         disallocate_cursor();
 
         set_pen_cursor(&data->cursor,
-                       data->thickness, data->color, data->arrow);
+                       data->thickness, &(data->color), data->arrow);
 
         update_cursor();
     }
@@ -956,7 +963,8 @@ void annotate_select_filler(
     )
 {
     if (data->debug) {
-        g_printerr("The pen with colour %s has been selected\n", data->color);
+        g_printerr("The pen with colour %s has been selected\n",
+                   gdk_rgba_to_string(&(data->color)));
     }
 
     if (data->default_pen) {
@@ -1138,7 +1146,7 @@ void annotate_fill(
     }
 
     flood_fill(data->annotation_cairo_context,
-               image_surface, data->color, x, y);
+               image_surface, &(data->color), x, y);
 
     annotate_add_savepoint();
     cairo_surface_destroy(image_surface);
@@ -1219,10 +1227,12 @@ void annotate_quit(
 {
 
     if (data) {
+#if 0
         if (data->color) {
             g_free(data->color);
             data->color = NULL;
         }
+#endif
 
         /* Destroy cursors. */
         disallocate_cursor();
@@ -1375,7 +1385,6 @@ gint annotate_init(
 {
     cursors_main();
     data = g_malloc((gsize) sizeof(AnnotateData));
-    gchar *color = g_strdup("FF0000FF");
 
     /* Initialize the data structure. */
     data->annotation_cairo_context = (cairo_t *) NULL;
@@ -1384,7 +1393,7 @@ gint annotate_init(
     data->cursor = (GdkCursor *) NULL;
     data->devdatatable = (GHashTable *) NULL;
 
-    data->color = color;
+    gdk_rgba_parse( &(data->color), DEFAULT_COLOUR);
     data->is_grabbed = FALSE;
     data->arrow = FALSE;
     data->rectify = FALSE;

@@ -31,7 +31,7 @@
 #include <annotation_window.h>
 #include <background_window.h>
 #include <text_window.h>
-#include <color_selector.h>
+#include <color_chooser.h>
 #include <preference_dialog.h>
 #include <info_dialog.h>
 #include <iwb_saver.h>
@@ -123,9 +123,11 @@ static void add_alpha(
     BarData * bar_data)
 {
     if (is_highlighter_toggle_tool_button_active()) {
-        strncpy(&bar_data->color[6], SEMI_OPAQUE_ALPHA, 2);
+        // strncpy(&bar_data->color[6], SEMI_OPAQUE_ALPHA, 2);
+        bar_data->color.alpha = (gdouble)0.5;
     } else {
-        strncpy(&bar_data->color[6], OPAQUE_ALPHA, 2);
+        // strncpy(&bar_data->color[6], OPAQUE_ALPHA, 2);
+        bar_data->color.alpha = (gdouble)1.0;
     }
 }
 
@@ -230,12 +232,11 @@ static void lock(
 /* Set color; this is called each time that the user want change color. */
 static void set_color(
     BarData * bar_data,
-    gchar * selected_color)
+    GdkRGBA * choosen_color)
 {
     take_pen_tool();
     lock(bar_data);
-    strncpy(bar_data->color, selected_color, 6);
-    annotate_set_color(bar_data->color);
+    annotate_set_color(choosen_color);
 }
 
 /* Pass the options to the annotation window. */
@@ -254,7 +255,7 @@ static void set_options(
     if (is_pen_toggle_tool_button_active() ||
         is_highlighter_toggle_tool_button_active() ||
         is_arrow_toggle_tool_button_active()) {
-        annotate_set_color(bar_data->color);
+        annotate_set_color( &(bar_data->color) );
         annotate_select_pen();
     } else if (is_eraser_toggle_tool_button_active()) {
         annotate_select_eraser();
@@ -272,7 +273,8 @@ static void start_tool(
             /* Text button then start the text widget. */
             annotate_release_grab();
             start_text_widget(GTK_WINDOW(get_bar_widget()),
-                              bar_data->color, bar_data->thickness);
+                              &(bar_data->color),
+                              bar_data->thickness);
         } else {
             /* Is an other tool for paint or erase. */
             set_options(bar_data);
@@ -472,7 +474,7 @@ G_MODULE_EXPORT void on_bar_arrow_activate(
 {
     BarData *bar_data = (BarData *) func_data;
     lock(bar_data);
-    set_color(bar_data, bar_data->color);
+    set_color(bar_data, &(bar_data->color));
 }
 
 /* Push pencil button. */
@@ -482,7 +484,7 @@ G_MODULE_EXPORT void on_bar_pencil_activate(
 {
     BarData *bar_data = (BarData *) func_data;
     lock(bar_data);
-    set_color(bar_data, bar_data->color);
+    set_color(bar_data, &(bar_data->color));
 }
 
 /* Push highlighter button. */
@@ -492,7 +494,7 @@ G_MODULE_EXPORT void on_bar_highlighter_activate(
 {
     BarData *bar_data = (BarData *) func_data;
     lock(bar_data);
-    set_color(bar_data, bar_data->color);
+    set_color(bar_data, &(bar_data->color));
 }
 
 /* Push filler button. */
@@ -667,7 +669,6 @@ G_MODULE_EXPORT void on_bar_color_activate(
 {
     BarData *bar_data = (BarData *) func_data;
     gboolean grab_value = bar_data->grab;
-    gchar *new_color = "";
 
     if (!gtk_toggle_tool_button_get_active(toolbutton)) {
         return;
@@ -679,16 +680,10 @@ G_MODULE_EXPORT void on_bar_color_activate(
     bar_data->grab = FALSE;
     gdk_window_set_cursor(gtk_widget_get_window(get_annotation_window()),
                           (GdkCursor *) NULL);
-    new_color =
-        start_color_selector_dialog(GTK_TOOL_BUTTON(toolbutton),
-                                    GTK_WINDOW(get_bar_widget()),
-                                    bar_data->color);
-
-    if (new_color)              // if it is a valid colour
-    {
-        set_color(bar_data, new_color);
-        g_free(new_color);
-    }
+    start_color_chooser_dialog(GTK_TOOL_BUTTON(toolbutton),
+                               GTK_WINDOW(get_bar_widget()),
+                               &(bar_data->color));
+    set_color(bar_data, &(bar_data->color));
 
     bar_data->grab = grab_value;
     start_tool(bar_data);
@@ -700,7 +695,10 @@ G_MODULE_EXPORT void on_bar_blue_activate(
     gpointer func_data)
 {
     BarData *bar_data = (BarData *) func_data;
-    set_color(bar_data, BLUE);
+    GdkRGBA color;
+
+    gdk_rgba_parse(&color, COLOUR_BLUE);
+    set_color(bar_data, &color);
 }
 
 /* Push red colour button. */
@@ -709,7 +707,10 @@ G_MODULE_EXPORT void on_bar_red_activate(
     gpointer func_data)
 {
     BarData *bar_data = (BarData *) func_data;
-    set_color(bar_data, RED);
+    GdkRGBA color;
+
+    gdk_rgba_parse(&color, COLOUR_RED);
+    set_color(bar_data, &color);
 }
 
 /* Push green colour button. */
@@ -718,7 +719,10 @@ G_MODULE_EXPORT void on_bar_green_activate(
     gpointer func_data)
 {
     BarData *bar_data = (BarData *) func_data;
-    set_color(bar_data, GREEN);
+    GdkRGBA color;
+
+    gdk_rgba_parse(&color, COLOUR_GREEN);
+    set_color(bar_data, &color);
 }
 
 /* Push yellow colour button. */
@@ -727,7 +731,10 @@ G_MODULE_EXPORT void on_bar_yellow_activate(
     gpointer func_data)
 {
     BarData *bar_data = (BarData *) func_data;
-    set_color(bar_data, YELLOW);
+    GdkRGBA color;
+
+    gdk_rgba_parse(&color, COLOUR_YELLOW);
+    set_color(bar_data, &color);
 }
 
 /* Push white colour button. */
@@ -736,5 +743,8 @@ G_MODULE_EXPORT void on_bar_white_activate(
     gpointer func_data)
 {
     BarData *bar_data = (BarData *) func_data;
-    set_color(bar_data, WHITE);
+    GdkRGBA color;
+
+    gdk_rgba_parse(&color, COLOUR_WHITE);
+    set_color(bar_data, &color);
 }

@@ -170,7 +170,7 @@ static void flood_fill_internal(
 void flood_fill(
     cairo_t * annotation_cairo_context,
     cairo_surface_t * surface,
-    gchar * filled_color,
+    GdkRGBA * filled_color,
     gdouble x,
     gdouble y)
 {
@@ -185,6 +185,7 @@ void flood_fill(
     fill_info.stride = cairo_image_surface_get_stride(surface);
     fill_info.orig_color = get_color(&fill_info, x, y);
 
+#if 0
     guint r, g, b, a;
     sscanf(filled_color, "%02X%02X%02X%02X", &r, &g, &b, &a);
     gint filled_colorint = RGBA_TO_UINT(r, g, b, a);
@@ -194,6 +195,14 @@ void flood_fill(
     }
 
     fill_info.filled_color = filled_colorint;
+#endif
+
+    guint32 rgba32 = GDKRGBA_TO_RGBA32(filled_color);
+    if (fill_info.orig_color == GDKRGBA_TO_RGBA32(filled_color)) {
+        return;
+    }
+
+    fill_info.filled_color = rgba32;
 
     flood_fill_internal(&fill_info, x, y);
 

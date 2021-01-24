@@ -167,7 +167,7 @@ typedef struct {
     gboolean debug;
 
     /* Pen color. */
-    gchar *color;
+    GdkRGBA color;
 
 } AnnotateData;
 
@@ -227,7 +227,7 @@ void annotate_quit(
 
 /* Set the pen colour. */
 void annotate_set_color(
-    gchar * color);
+    GdkRGBA * color);
 
 /* Modify colour according to the pressure. */
 void annotate_modify_color(

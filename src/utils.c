@@ -211,6 +211,22 @@ cairo_surface_t *scale_surface(
     return new_surface;
 }
 
+/* Set the cairo surface colour. */
+void cairo_set_source_color_from_GdkRGBA(
+    cairo_t * cr,
+    GdkRGBA * color)
+{
+    if (!cr) {
+        return;
+    }
+
+    cairo_set_source_rgba(cr,
+                          color->red,
+                          color->green,
+                          color->blue,
+                          color->alpha);
+}
+
 /* Set the cairo surface colour to the RGBA string. */
 void cairo_set_source_color_from_string(
     cairo_t * cr,
