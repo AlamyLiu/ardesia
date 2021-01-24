@@ -10,12 +10,12 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Ardesia is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -160,7 +160,7 @@ void drill_window_in_bar_area(
     GtkWidget * widget);
 
 /*
- * Take a rgba string and return the pointer to the allocated GdkColor 
+ * Take a rgba string and return the pointer to the allocated GdkColor
  * neglecting the alpha channel.
  */
 GdkColor *rgba_to_gdkcolor(
@@ -175,7 +175,7 @@ gboolean save_pixbuf_on_png_file(
 GdkPixbuf *grab_screenshot(
     );
 
-/* 
+/*
  * Return a file name containing
  * the project name and the current date.
  *
@@ -272,7 +272,7 @@ gchar *g_substr(
     gint end);
 
 /*
- * This function create a segmentation fault; 
+ * This function create a segmentation fault;
  * it is useful to test the segmentation fault handler.
  */
 void create_segmentation_fault(

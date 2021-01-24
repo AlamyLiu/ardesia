@@ -10,12 +10,12 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Ardesia is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -144,7 +144,7 @@ gchar *gdkcolor_to_rgb(
 }
 
 /*
- * Take an rgb or a rgba string and return the pointer to the allocated GdkColor 
+ * Take an rgb or a rgba string and return the pointer to the allocated GdkColor
  * neglecting the alpha channel; the gtkColor does not support the rgba color.
  */
 GdkColor *rgba_to_gdkcolor(
@@ -195,7 +195,7 @@ cairo_surface_t *scale_surface(
     cairo_scale(cr, width / old_width, height / old_height);
     cairo_set_source_surface(cr, surface, 0, 0);
 
-    /* To avoid getting the edge pixels blended with 0 alpha, which would 
+    /* To avoid getting the edge pixels blended with 0 alpha, which would
      * occur with the default EXTEND_NONE. Use EXTEND_PAD for 1.2 or newer (2)
      */
     cairo_pattern_set_extend(cairo_get_source(cr), CAIRO_EXTEND_REFLECT);
@@ -317,7 +317,7 @@ void drill_window_in_bar_area(
     // drill with input shape the pointer will go below the window.
     gtk_widget_input_shape_combine_region(widget, ann_reg);
 
-    // drill with shape; the area will be transparent. 
+    // drill with shape; the area will be transparent.
     gtk_widget_shape_combine_region(widget, ann_reg);
 
     cairo_region_destroy(ann_reg);
@@ -363,7 +363,7 @@ gboolean file_exists(
     return g_file_test(filename, G_FILE_TEST_EXISTS);
 }
 
-/* 
+/*
  * Return a file name containing
  * the project name and the current date.
  */
@@ -639,7 +639,7 @@ gchar *g_substr(
     return g_strndup(&string[start], size);
 }
 
-/* 
+/*
  * This function create a segmentation fault;
  * it is useful to test the segmentation fault handler.
  */

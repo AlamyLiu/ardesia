@@ -1,4 +1,4 @@
-/* 
+/*
  * Ardesia -- a program for painting on the screen
  * with this program you can play, draw, learn and teach
  * This program has been written such as a freedom sonet
@@ -10,12 +10,12 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Ardesia is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -43,8 +43,8 @@
 /* Timer used to up-rise the window. */
 static gint timer = -1;
 
-/* Try to up-rise the window; 
- * this is used for the window manager 
+/* Try to up-rise the window;
+ * this is used for the window manager
  * that does not support the stay above directive.
  */
 static gboolean bar_to_top(
@@ -183,7 +183,7 @@ static void release_lock(
 #ifdef _WIN32                   // WIN32
         if (gtk_window_get_opacity(GTK_WINDOW(get_background_window()))
             != 0) {
-            /* 
+            /*
              * @HACK This allow the mouse input go below the window putting
              * the opacity to 0; when will be found a better way to make
              * the window transparent to the the pointer input we might
@@ -213,7 +213,7 @@ static void lock(
 
 #ifdef _WIN32                   // WIN32
 
-        /* 
+        /*
          * @HACK Deny the mouse input to go below the window putting the opacity greater than 0
          * @TODO remove the opacity hack when will be solved the next todo.
          */

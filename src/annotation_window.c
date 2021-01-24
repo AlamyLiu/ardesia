@@ -529,7 +529,7 @@ static void delete_ardesia_tmp_dir(
     g_free(ardesia_tmp_dir);
 }
 
-/* Draw an arrow starting from the point 
+/* Draw an arrow starting from the point
  * whith the width and the direction in radiant
  */
 static void draw_arrow_in_point(
@@ -675,11 +675,11 @@ void initialize_annotation_cairo_context(
         HDC hdc =
             GetDC(GDK_WINDOW_HWND
                   (gtk_widget_get_window(data->annotation_window)));
-        /* 
+        /*
          * @TODO Use an HDC that support the ARGB32 format to support the alpha channel;
          * this might fix the highlighter bug.
          * In the documentation is written that the now the resulting surface is in RGB24 format.
-         * 
+         *
          */
         cairo_surface_t *surface = cairo_win32_surface_create(hdc);
 
@@ -911,7 +911,7 @@ void annotate_push_context(
 #else
     /*
      * @WORKAROUND using CAIRO_OPERATOR_ADD instead of CAIRO_OPERATOR_OVER
-     * I do this to use the text widget in windows 
+     * I do this to use the text widget in windows
      * I use the CAIRO_OPERATOR_ADD that put the new layer
      * on the top of the old;this function does not preserve the colour of
      * the second layer but modify it respecting the first layer.

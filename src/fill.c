@@ -10,12 +10,12 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Ardesia is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -77,7 +77,7 @@ static gboolean is_similar_to_old_pixel_value(
         gfloat deltag = fabs(og * oa / 256.0 - g * a / 256.0);
         gfloat deltab = fabs(ob * oa / 256.0 - b * a / 256.0);
 
-        /* 
+        /*
          * It excludes the points with alpha value used for transparent, semitranparent and opaque color.
          * This is a rough way to detect the borders.
          * The points are filtered on threshold and balanced with alpha channel.

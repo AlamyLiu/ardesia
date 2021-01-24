@@ -1,4 +1,4 @@
-/* 
+/*
  * Ardesia -- a program for painting on the screen
  * with this program you can play, draw, learn and teach
  * This program has been written such as a freedom sonet
@@ -10,12 +10,12 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Ardesia is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -40,7 +40,7 @@ static gboolean is_similar(
     return FALSE;
 }
 
-/* 
+/*
  * The list of point is roundable to a rectangle
  * Note this algorithm found only the rectangle parallel to the axis.
  */
@@ -521,7 +521,7 @@ gboolean is_similar_to_an_ellipse(
     aq = pow(a, 2);
     bq = pow(b, 2);
 
-    /* 
+    /*
      * If in one point the sum of the distance by focus F1 and F2 differer more than
      * the tolerance value the curve line will not be considered an ellipse.
      */

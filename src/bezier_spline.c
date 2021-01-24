@@ -1,4 +1,4 @@
-/* 
+/*
  * Ardesia -- a program for painting on the screen
  * with this program you can play, draw, learn and teach
  * This program has been written such as a freedom sonet
@@ -10,12 +10,12 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Ardesia is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -56,17 +56,17 @@ GSList *spline(
     }
 
   /*****************************************************************************
-  
+
    Bezier control points system matrix
- 1 
-    P0 P1 P2 Pn-1 ... Q0 Q1 Q2 Qn-1       
+ 1
+    P0 P1 P2 Pn-1 ... Q0 Q1 Q2 Qn-1
    /    1              1           \   /P0  \      /  2*X1\ Pi+1 + Qi = 2*Xi+1
    | 1  2             -2 -1        |   |P1  |      |     0|
    |       1              1        |   |P2  |      |  2*X2|
    |    1  2             -2 -1     | * |Pn-1|   =  |     0| Pi + 2*Pi+1
    |          1              1     |   |Q0  |      |2*Xn-1|    - Qi+1 - 2*Qi = 0
    |       1  2             -2 -1  |   |Q1  |      |     0|
-   | 1                             |   |Q2  |      |    X0| P0   = X0     
+   | 1                             |   |Q2  |      |    X0| P0   = X0
    \                             1 /   \Qn-1/      \    Xn/ Qn-1 = Xn
 
                 A*x = b
