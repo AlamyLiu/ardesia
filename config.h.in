@@ -28,4 +28,7 @@
 /* Version number of package */
 #define VERSION "${PROJECT_VERSION}"
 
+/* Temporary fix compiling error */
+#define PACKAGE_DATA_DIR "${CMAKE_INSTALL_PREFIX}"
+
 #endif	/* CONFIG_H */
