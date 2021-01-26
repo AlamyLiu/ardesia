@@ -108,6 +108,13 @@ target_include_directories(${PROJECT_NAME}
         ${SRC_PATH}
 )
 
+# $<$<C_COMPILER_ID:GNU>:-export-dynamic>
+
+target_link_options(${PROJECT_NAME}
+    PRIVATE
+        -export-dynamic
+)
+
 target_link_libraries(${PROJECT_NAME}
         ${GSL_LIBRARIES}
         ${GTK3_LIBRARIES}
