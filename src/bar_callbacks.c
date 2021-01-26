@@ -319,14 +319,20 @@ G_MODULE_EXPORT gboolean on_bar_quit(
 {
     BarData *bar_data = (BarData *) func_data;
 
+#ifdef BUILD_RECORDER
     stop_recorder();
+#endif  /* BUILD_RECORDER */
 
     bar_data->grab = FALSE;
     /* Release grab. */
     annotate_release_grab();
 
     export_iwb(get_iwb_filename());
+
+#ifdef BUILD_PDF_SAVER
     quit_pdf_saver();
+#endif  /* BUILD_PDF_SAVER */
+
     start_share_dialog();
 
     annotate_quit();
@@ -517,6 +523,7 @@ G_MODULE_EXPORT void on_bar_eraser_activate(
     annotate_select_eraser();
 }
 
+#ifdef BUILD_IMAGE_SAVER
 /* Push save (screen-shoot) button. */
 G_MODULE_EXPORT void on_bar_screenshot_activate(
     GtkToolButton * toolbutton,
@@ -533,7 +540,9 @@ G_MODULE_EXPORT void on_bar_screenshot_activate(
     bar_data->grab = grab_value;
     start_tool(bar_data);
 }
+#endif  /* BUILD_IMAGE_SAVER */
 
+#ifdef BUILD_PDF_SAVER
 /* Add page to pdf. */
 G_MODULE_EXPORT void on_bar_add_pdf_activate(
     GtkToolButton * toolbutton,
@@ -550,7 +559,9 @@ G_MODULE_EXPORT void on_bar_add_pdf_activate(
     bar_data->grab = grab_value;
     start_tool(bar_data);
 }
+#endif  /* BUILD_PDF_SAVER */
 
+#ifdef BUILD_RECORDER
 /* Push recorder button. */
 G_MODULE_EXPORT void on_bar_recorder_activate(
     GtkToolButton * toolbutton,
@@ -620,6 +631,7 @@ G_MODULE_EXPORT void on_bar_recorder_activate(
     bar_data->grab = grab_value;
     start_tool(bar_data);
 }
+#endif  /* BUILD_RECORDER */
 
 /* Push preference button. */
 G_MODULE_EXPORT void on_bar_preferences_activate(

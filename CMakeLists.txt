@@ -1,12 +1,16 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2021, Alamy Liu. All rights reserved.
+# Copyright (c) 2021, Alamy Liu <Alamy.Liu@gmail.com>. All rights reserved.
 #
-# SPDX-License-Identifier: GPL-2.0
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
 #-------------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.15)
+cmake_policy(SET CMP0076 NEW)
+cmake_policy(SET CMP0079 NEW)
 
+
+################################################################################
 
 set(PROJECT_NAME ardesia)
 set(PROJECT_VERSION 1.2)
@@ -28,6 +32,7 @@ endif()
 
 ############################### Compiler configuration #########################
 
+include(config_default.cmake)
 
 
 ############################ Config Check ######################################
@@ -71,13 +76,13 @@ set(SOURCES
     ${SRC_PATH}/iwb_loader.c
     ${SRC_PATH}/iwb_saver.c
     ${SRC_PATH}/keyboard.c
-    ${SRC_PATH}/pdf_saver.c
+    $<$<BOOL:${BUILD_PDF_SAVER}>:${SRC_PATH}/pdf_saver.c>
     ${SRC_PATH}/preference_dialog.c
     ${SRC_PATH}/preference_dialog_callbacks.c
     ${SRC_PATH}/project_dialog.c
     ${SRC_PATH}/project_dialog_callbacks.c
-    ${SRC_PATH}/recorder.c
-    ${SRC_PATH}/saver.c
+    $<$<BOOL:${BUILD_RECORDER}>:${SRC_PATH}/recorder.c>
+    $<$<BOOL:${BUILD_IMAGE_SAVER}>:${SRC_PATH}/saver.c>
     ${SRC_PATH}/share_confirmation_dialog.c
     ${SRC_PATH}/share_confirmation_dialog_callbacks.c
     ${SRC_PATH}/text_window.c
@@ -93,6 +98,9 @@ target_compile_definitions(${PROJECT_NAME}
         GTK_DISABLE_SINGLE_INCLUDES
         GTK_DISABLE_DEPRECATED
         GDK_DISABLE_DEPRECATED
+        $<$<BOOL:${BUILD_PDF_SAVER}>:BUILD_PDF_SAVER>
+        $<$<BOOL:${BUILD_RECORDER}>:BUILD_RECORDER>
+        $<$<BOOL:${BUILD_IMAGE_SAVER}>:BUILD_IMAGE_SAVER>
 )
 
 target_include_directories(${PROJECT_NAME}
