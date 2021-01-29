@@ -130,6 +130,15 @@ gdouble get_distance(
     return sqrt(quad_sum);
 }
 
+gboolean is_gdkrgba_color_null(
+    GdkRGBA * color)
+{
+    return ((color->red   == 0.0) &&
+            (color->green == 0.0) &&
+            (color->blue  == 0.0) &&
+            (color->alpha == 0.0));
+}
+
 /* Take a GdkColor and return the equivalent RGBA string. */
 gchar *gdkcolor_to_rgb(
     GdkColor * gdkcolor)

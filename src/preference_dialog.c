@@ -125,9 +125,9 @@ void start_preference_dialog(
         (preference_data->preference_dialog_gtk_builder,
          (gpointer) preference_data);
 
-    gint background_type = get_background_type();
+    bg_type background_type = get_background_type();
 
-    if (background_type == 1) {
+    if (background_type == BG_COLOUR) {
         GObject *color_obj =
             gtk_builder_get_object
             (preference_data->preference_dialog_gtk_builder,
@@ -135,7 +135,7 @@ void start_preference_dialog(
 
         GtkToggleButton *color_tool_button = GTK_TOGGLE_BUTTON(color_obj);
         gtk_toggle_button_set_active(color_tool_button, TRUE);
-    } else if (background_type == 2) {
+    } else if (background_type == BG_IMAGE) {
         GObject *file_obj =
             gtk_builder_get_object
             (preference_data->preference_dialog_gtk_builder,
@@ -145,7 +145,7 @@ void start_preference_dialog(
         gtk_toggle_button_set_active(image_tool_button, TRUE);
     }
 
-    gchar *rgba = get_background_color();
+    GdkRGBA *rgba = get_background_color();
     if (rgba) {
         GdkColor *gdkcolor = rgba_to_gdkcolor(rgba);
         guint16 alpha = strtol(&rgba[6], NULL, 16) * 257;

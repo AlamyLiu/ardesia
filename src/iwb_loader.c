@@ -17,6 +17,7 @@
  *
  */
 
+#include "ardesia.h"
 #include <utils.h>
 #include <iwb_loader.h>
 #include <annotation_window.h>
@@ -90,20 +91,20 @@ static void add_background_color_reference(
     xmlChar *alpha = xmlGetProp(node, (xmlChar *) "fill-opacity");
     guint16 ad = (guint16) g_ascii_strtoull((gchar *) alpha, NULL, 10);
 
-    /* FFFFFFFF */
+    GdkRGBA gdkrgba = {
+        .red   = CLAMP ((double) rd / 255.0, 0.0, 1.0),
+        .green = CLAMP ((double) gd / 255.0, 0.0, 1.0),
+        .blue  = CLAMP ((double) bd / 255.0, 0.0, 1.0),
+        .alpha = CLAMP ((double) ad / 255.0, 0.0, 1.0),
+    };
 
-    gchar *rgba = g_strdup_printf("%02x%02x%02x%02x",
-                                  rd,
-                                  gd,
-                                  bd,
-                                  ad);
-
-    if (g_strcmp0(rgba, "00000000") != 0) {
+    if ((rd == 0) && (gd == 0) && (bd == 0) && (ad == 0)) {
         set_background_type(1);
-        update_background_color(rgba);
+        update_background_color( &gdkrgba );
     } else {
-        update_background_color(rgba);
-        set_background_color("000000FF");
+        update_background_color( &gdkrgba );
+        gdk_rgba_parse( &(gdkrgba), COLOUR_BLACK);
+        set_background_color( &gdkrgba );
     }
 
     g_free((gchar *) alpha);

@@ -1,23 +1,8 @@
 /*
- * Ardesia -- a program for painting on the screen
- * with this program you can play, draw, learn and teach
- * This program has been written such as a freedom sonet
- * We believe in the freedom and in the freedom of education
- *
  * Copyright (C) 2009 Pilolli Pietro <pilolli.pietro@gmail.com>
+ * Copyright (C) 2021 Alamy Liu <Alamy.Liu@gmail.com>
  *
- * Ardesia is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Ardesia is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-License-Identifier: GPL-3.0-or-later
  *
  */
 
@@ -88,9 +73,7 @@ G_MODULE_EXPORT void on_preference_ok_button_clicked(
     gpointer data)
 {
     PreferenceData *preference_data = (PreferenceData *) data;
-    gchar *rgb = NULL;
     gchar *a = NULL;
-    gchar *rgba = NULL;
     GObject *color_tool_obj =
         gtk_builder_get_object(preference_data->preference_dialog_gtk_builder,
                                "color");
@@ -107,19 +90,15 @@ G_MODULE_EXPORT void on_preference_ok_button_clicked(
             GTK_COLOR_BUTTON(bg_color_obj);
         GdkColor *gdkcolor = g_malloc((gsize) sizeof(GdkColor));
         gtk_color_button_get_color(background_color_button, gdkcolor);
-
-        rgb = gdkcolor_to_rgb(gdkcolor);
-        a = g_strdup_printf("%02x",
-                            gtk_color_button_get_alpha
-                            (background_color_button)
-                            / 257);
-        rgba = g_strdup_printf("%s%s", rgb, a);
-
-        update_background_color(rgba);
+        GdkRGBA gdkrgba = {
+            .red   = CLAMP ((double) gdkcolor->red   / 65535.0, 0.0, 1.0),
+            .green = CLAMP ((double) gdkcolor->green / 65535.0, 0.0, 1.0),
+            .blue  = CLAMP ((double) gdkcolor->blue  / 65535.0, 0.0, 1.0),
+            .alpha = 1.0,
+        };
+        update_background_color( &gdkrgba );
 
         g_free(a);
-        g_free(rgb);
-        g_free(rgba);
         g_free(gdkcolor);
         set_background_type(1);
     } else {

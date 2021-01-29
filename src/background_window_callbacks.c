@@ -74,9 +74,9 @@ G_MODULE_EXPORT gboolean back_event_expose(
     if ((background_data->background_image)
         && (get_background_type() == 2)) {
         update_background_image(background_data->background_image);
-    } else if ((background_data->background_color)
+    } else if ( !is_gdkrgba_color_null( &(background_data->background_color) )
                && (get_background_type() == 1)) {
-        update_background_color(background_data->background_color);
+        update_background_color( &(background_data->background_color) );
     } else {
         clear_background_window();
     }

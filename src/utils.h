@@ -120,6 +120,10 @@ void free_artifacts(
 GtkWidget *get_bar_widget(
     );
 
+/* Is the color NULL ? */
+gboolean is_gdkrgba_color_null(
+    GdkRGBA * color);
+
 /* Take a GdkColor and return the RGB string. */
 gchar *gdkcolor_to_rgb(
     GdkColor * gdkcolor);

@@ -31,6 +31,12 @@
 #   define BACKGROUND_UI_FILE PACKAGE_DATA_DIR"/ardesia/ui/background_window.glade"
 #endif
 
+typedef enum {
+    BG_NONE,
+    BG_COLOUR,
+    BG_IMAGE
+} bg_type;
+
 /* Structure that contains the info passed to the callbacks. */
 typedef struct {
 
@@ -38,10 +44,10 @@ typedef struct {
     GtkBuilder *background_window_gtk_builder;
 
     /* 0 no background, 1 color, 1 image */
-    gint background_type;
+    bg_type background_type;
 
     /* Background colour selected. */
-    gchar *background_color;
+    GdkRGBA background_color;
 
     /* Background image selected. */
     gchar *background_image;
@@ -60,10 +66,10 @@ GtkWidget *create_background_window(
 
 /* Set the background type. */
 void set_background_type(
-    gint type);
+    bg_type type);
 
 /* Get the background type */
-gint get_background_type(
+bg_type get_background_type(
     );
 
 /* Set the background image. */
@@ -80,14 +86,14 @@ gchar *get_background_image(
 
 /* Set the background colour. */
 void set_background_color(
-    gchar * rgba);
+    GdkRGBA * rgba);
 
 /* Update the background colour. */
 void update_background_color(
-    gchar * rgba);
+    GdkRGBA * rgba);
 
 /* Get the background colour */
-gchar *get_background_color(
+GdkRGBA *get_background_color(
     );
 
 /* Clear the background. */
