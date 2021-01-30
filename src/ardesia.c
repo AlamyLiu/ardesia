@@ -28,34 +28,31 @@ static void print_version(
 static void print_help(
     )
 {
-    gchar *year = "2009-2010";
-    gchar *author = "Pietro Pilolli";
     g_printf("Usage: %s [options] [filename]\n\n", PACKAGE_NAME);
     g_printf("Ardesia the free digital sketchpad\n\n");
     g_printf("options:\n");
-    g_printf("  --verbose ,\t-V\t\tEnable verbose mode to see the logs\n");
-    g_printf("  --decorate,\t-d\t\tDecorate the window with the borders\n");
+    g_printf("  --verbose ,\t-V    Enable verbose mode to see the logs\n");
+    g_printf("  --decorate,\t-d    Decorate the window with the borders\n");
     g_printf
-        ("  --gravity ,\t-g\t\tSet the gravity of the bar. Possible values are:\n");
-    g_printf("  \t\t\t\teast [default]\n");
-    g_printf("  \t\t\t\twest\n");
-    g_printf("  \t\t\t\tnorth\n");
-    g_printf("  \t\t\t\tsouth\n");
+        ("  --gravity ,\t-g    The gravity of the bar. Possible values are:\n");
+    g_printf("  \t\t\t  east [default]\n");
+    g_printf("  \t\t\t  west\n");
+    g_printf("  \t\t\t  north\n");
+    g_printf("  \t\t\t  south\n");
     g_printf
-        ("  --font ,\t-f\t\tSet the font family for the text window. Possible values are:\n");
-    g_printf("  \t\t\t\tserif [default]\n");
-    g_printf("  \t\t\t\tsans-serif\n");
-    g_printf("  \t\t\t\tmonospace\n");
+        ("  --font,\t-f    The font family for the text window. Possible values are:\n");
+    g_printf("  \t\t\t  serif [default]\n");
+    g_printf("  \t\t\t  sans-serif\n");
+    g_printf("  \t\t\t  monospace\n");
     g_printf
-        ("  --leftmargin,\t-l\t\tSet the left margin in text window to set after hitting Enter\n");
-    g_printf("  --tabsize,\t-t\t\tSet the tabsize in pixel in text window\n");
-    g_printf("  --help    ,\t-h\t\tShows the help screen\n");
-    g_printf("  --version ,\t-v\t\tShows version information and exit\n");
+        ("  --leftmargin,\t-l    The left margin in text window to set after hitting Enter\n");
+    g_printf("  --tabsize,\t-t    The tabsize in pixel in text window\n");
+    g_printf("  --help   ,\t-h    Shows the help screen\n");
+    g_printf("  --version,\t-v    Shows version information and exit\n");
     g_printf("\n");
     g_printf
-        ("filename:\t  \t\tThe interactive Whiteboard Common File (iwb)\n");
+        ("filename:\t      The interactive Whiteboard Common File (iwb)\n");
     g_printf("\n");
-    g_printf("%s (C) %s %s\n", PACKAGE_STRING, year, author);
     exit(EXIT_SUCCESS);
 }
 
